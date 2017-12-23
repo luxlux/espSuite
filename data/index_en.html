@@ -17,6 +17,13 @@ Comments here
       p {
         text-indent: 1rem;
       }
+      .help {
+        font-family: sans-serif;
+        font-size: 0.7em;
+        background-color: #f8f8f8;
+        padding: 2px;
+        border-radius: 2px;
+      }
       .right {
         float: right;
         border: 3px solid #73AD21;
@@ -100,10 +107,7 @@ Comments here
     </center>
 
     <div class="block">
-      <p style="color:#35e6a0;">For Server mode:MQTT not supported, WebSockets using port 81, raw TCP using port 23</p>
-      <p style="color:#35e6a3;">Just submit the data you want to change, but fill every field that will be needed in the desired section (green box).</p>
-      <!-- <p style="color:#35e6a3;">No fim, pressione<strong>Salvar</strong>.</p> -->
-
+      <p style="color:#35e6a3;">Just submit the data you want to change, but fill every field that will be needed in the desired section (green box). Power off and on to make the settings to become active.</p>
     </div>
 
     <div class="inline-block spacer-horizontal">
@@ -112,7 +116,11 @@ Comments here
     <div class="inline-block-bordered">
 
       <form action="ap" method="post">
-        <h3>AP</h3>
+        <h3>WiFi Access Point (ap)</h3>
+        <div class="help">
+          Used to create its own WiFi network.
+        </div>
+        <br>
         SSID
         <br>
         <input type="text" name="ssid" value="">
@@ -125,6 +133,7 @@ Comments here
         <br>
         <input type="text" name="ip" value="192.168.1.1">
         <br>
+        <br>
         <center>
           <input type="submit" value="Submit">
         </center>
@@ -136,7 +145,12 @@ Comments here
     <div class="inline-block-bordered">
 
       <form action="sta" method="post">
-        <h3>Station</h3>
+        <h3>WiFi Client (sta)</h3>
+        <div class="help">
+          Used to include into an existing WiFi Network.
+          <br>
+          In WiFi Client Mode, DHCP will be used for getting an IP.
+        </div>
         <br/>
         SSID
         <br>
@@ -145,41 +159,21 @@ Comments here
         Password
         <br>
         <input type="text" name="key" value="">
-        <br><br>
+        <br>
+        <br>
         <center>
-          <input type="submit" value="Submit">
+        <input type="submit" value="Submit">
         </center>
       </form>
     </div>
     <div class="inline-block spacer-horizontal">
       <p></p>
     </div>
-<!--    <div class="inline-block-bordered">
-      <h3>AP Configuração</h3>
-      <form action="cfgMode" method="post">
-        SSID
-        <br>
-        <input type="text" name="ssid" value="">
-        <br>
-        Password
-        <br>
-        <input type="text" name="key" value="">
-        <br>
-        IP
-        <br>
-        <input type="text" name="ip" value="192.168.0.1">
-        <br>
-        <center>
-          <input type="submit" value="Submit">
-        </center>
-      </form>
-    </div>  -->
     <div class="inline-block spacer-horizontal">
       <p></p>
     </div>
 
     <div class="block">
-      <p></p>
     </div>
     <div class="inline-block spacer-horizontal">
       <p></p>
@@ -187,14 +181,25 @@ Comments here
     <div class="inline-block-bordered">
       <form action="init" method="get">
       <div class="inline-block">
-        <h3>WiFi</h3>
+        <h3>WiFi Mode</h3>
 
-          <input type="radio" name=wifiMode value="sta">Station<br>
+          <input type="radio" name=wifiMode value="sta">Client<br>
+          <div class="help">
+            Fill and submit also
+            <br>
+            WiFi Client box!
+          </div>
           <br>
-          <input type="radio" name=wifiMode value="ap">AP<br>
+          <input type="radio" name=wifiMode value="ap">Access Point<br>
+          <div class="help">
+            Fill and submit also 
+            <br>
+            WiFi Access Point box!
+          </div>
           <br>
-          Serial baud rate<br/>
-          <input type="text" name="baud" value="250000">
+          <h3>Serial / UART</h3>
+          Baud Rate<br/>
+          <input type="text" name="baud" value="230400">
           <br>
       </div>
       <div class="inline-block spacer-horizontal">
@@ -228,23 +233,34 @@ Comments here
           </h3>
           <br>
           <input type="radio" name=protocol value="mqtt">MQTT<br>
+          <div class="help">only client mode</div>
           <br>
-          <input type="radio" name=protocol value="ws">WebSocket<br>
+          <input type="radio" name=protocol value="ws">WebSocket (ws)
+          <div class="help">server or client mode</div>
           <br>
-          <input type="radio" name=protocol value="raw">Socket TCP<br>
-          <br>
+          <input type="radio" name=protocol value="raw">Socket TCP (raw)
+          <div class="help">server or client mode</div>
         </div>
         <div class="inline-block spacer-horizontal">
           <p></p>
         </div>
         <div class="inline-block">
           <h3>Mode</h3>
-          <br>
-          <br>
-          <input type="radio" name=mode value="client">Client<br>
-          <br>
-          <input type="radio" name=mode value="server">Server<br>
-          <br>
+            <br>
+            <input type="radio" name=mode value="client">Client<br>
+            <div class="help">
+              for client mode set also
+              <br>the remote address!
+            </div>
+            <br>
+            <input type="radio" name=mode value="server">Server<br>
+            <div class="help">listens on Port 81 (WebSocket)
+              <br>
+              or on Port 23 (Socket TCP).
+              <br>
+              No Server mode for MQTT Protocol
+            </div>
+            <br>
         </div>
 
         <div class="inline-block spacer-horizontal">
@@ -252,7 +268,16 @@ Comments here
         </div>
 
         <div class="inline-block">
-          <h3>Remote Server</h3>
+          <h3>Remote Address</h3>
+          <div class="help">
+            Only used in client mode!
+            <br>
+            Enter address of MQTT Broker,
+            <br>
+            remote WebSocket Server,
+            <br>
+            or remote Socket TCP Server.
+          </div>
           <!--
           Porta local<br>
           <input type="text" name="myPort" value="">
@@ -283,7 +308,7 @@ Comments here
 
     <div class="inline-block-bordered">
 
-      <h3>Names</h3>
+      <h3>MQTT Names</h3>
       <form action="names" method="get">
 
         Name
@@ -297,6 +322,7 @@ Comments here
         Subscription topic
         <br>
         <input type="text" name="subTopic" value="things">
+        <br>
         <br>
         <center>
           <input type="submit" value="Submit">
